@@ -165,7 +165,10 @@ def _preprocess_data(data):
 
         return df
 
-
+    def customer_encoder(df):
+        dict_cast = {'Business': 1, 'Personal':0}
+        df['Personal or Business']= df['Personal or Business'].map(dict_cast)
+        return df
 
     ##########################################################################
     #                END OF TEAM 10 FEATURE ENGINEERING FUNCTIONS
@@ -186,10 +189,10 @@ def _preprocess_data(data):
     # receive marks for submitting this code in an unchanged state.
     # ---------------------------------------------------------------
 
-    # ----------- Replace this code with your own preprocessing steps --------
-    predict_vector = feature_vector_df[['Pickup Lat','Pickup Long',
-                                        'Destination Lat','Destination Long']]
-    # ------------------------------------------------------------------------
+    # # ----------- Replace this code with your own preprocessing steps --------
+    # predict_vector = feature_vector_df[['Pickup Lat','Pickup Long',
+    #                                     'Destination Lat','Destination Long']]
+    # # ------------------------------------------------------------------------
 
     ##########################################################################
     #                START OF FUNCTIONS CALLS
@@ -199,10 +202,11 @@ def _preprocess_data(data):
     feature_vector_df = drop_columns(feature_vector_df)
 
     # Encode weekdays to weekday names category 
-    feature_vector_df= to_weekday_name(feature_vector_df)
+    # feature_vector_df= to_weekday_name(feature_vector_df)
 
     # Platform type to category
-    feature_vector_df= to_platform_type(feature_vector_df)
+    #feature_vector_df= to_platform_type(feature_vector_df)
+    feature_vector_df= customer_encoder(feature_vector_df)
 
     # cast time to datetime then create hours, minute, seconds
     feature_vector_df= to_seconds(feature_vector_df)
@@ -221,13 +225,14 @@ def _preprocess_data(data):
                         'Placement_second', 'Confirmation_hour', 'Confirmation_minute', 'Confirmation_second',
                         'Arrival at Pickup_hour', 'Arrival at Pickup_minute', 'Arrival at Pickup_second',
                          'Pickup_hour','Pickup_minute', 'Pickup_second', 'delta-Time-Confirmation_Placement',
-                        'delta-Time-Arrival-at-Pickup_Confirmation', 'delta-Time-Pickup_Arrival-at-Pickup']
+                        'delta-Time-Arrival-at-Pickup_Confirmation', 'delta-Time-Pickup_Arrival-at-Pickup',
+                        'Platform Type', 'Placement - Weekday (Mo = 1)']
 
 
-    categorical_features = ['Platform Type', 'Personal or Business', 'Placement - Weekday (Mo = 1)']
+    categorical_features = ['Personal or Business']
 
 
-    return predict_vector[numerical_features + categorical_features]
+    return feature_vector_df[numerical_features + categorical_features]
     # return predict_vector
 
 def load_model(path_to_model:str):

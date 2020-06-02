@@ -29,8 +29,8 @@ app = Flask(__name__)
 
 # Load our model into memory.
 # Please update this path to reflect your own trained model.
-path_to_model=  'assets/trained-models/sendy_simple_lm_regression.pkl'
-path_to_model = 'assets/trained-models/06-01-2020-at-05-34-28_CatBoost_v1_Pipeline_model.plk'
+# path_to_model =  'assets/trained-models/sendy_simple_lm_regression.pkl'
+path_to_model =  'assets/trained-models/catboost_model.pkl'
 
 static_model = load_model(path_to_model=path_to_model)
 
