@@ -196,30 +196,39 @@ def _preprocess_data(data):
     ##########################################################################
     
     # Drop redundant columns
-    drop_columns(feature_vector_df)
+    feature_vector_df = drop_columns(feature_vector_df)
 
     # Encode weekdays to weekday names category 
-    to_weekday_name(feature_vector_df)
+    feature_vector_df= to_weekday_name(feature_vector_df)
 
     # Platform type to category
-    to_platform_type(feature_vector_df)
+    feature_vector_df= to_platform_type(feature_vector_df)
 
     # cast time to datetime then create hours, minute, seconds
-    to_seconds(feature_vector_df)
+    feature_vector_df= to_seconds(feature_vector_df)
 
     # Create the delta features
-    to_delta(feature_vector_df)
+    feature_vector_df= to_delta(feature_vector_df)
 
     ##########################################################################
     #                 END OF FUNCTIONS CALLS
     ##########################################################################
 
+    numerical_features = ['Placement - Day of Month', 'Placement - Time', 'Confirmation - Time',
+                        'Arrival at Pickup - Time', 'Pickup - Time', 'Distance (KM)', 'Temperature',
+                        'Pickup Lat', 'Pickup Long', 'Destination Lat', 'Destination Long', 'No_Of_Orders',
+                        'Age', 'Average_Rating', 'No_of_Ratings', 'Placement_hour', 'Placement_minute',
+                        'Placement_second', 'Confirmation_hour', 'Confirmation_minute', 'Confirmation_second',
+                        'Arrival at Pickup_hour', 'Arrival at Pickup_minute', 'Arrival at Pickup_second',
+                         'Pickup_hour','Pickup_minute', 'Pickup_second', 'delta-Time-Confirmation_Placement',
+                        'delta-Time-Arrival-at-Pickup_Confirmation', 'delta-Time-Pickup_Arrival-at-Pickup']
 
 
+    categorical_features = ['Platform Type', 'Personal or Business', 'Placement - Weekday (Mo = 1)']
 
 
-
-    return predict_vector
+    return predict_vector[numerical_features + categorical_features]
+    # return predict_vector
 
 def load_model(path_to_model:str):
     """Adapter function to load our pretrained model into memory.
