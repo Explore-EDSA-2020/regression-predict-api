@@ -191,6 +191,34 @@ def _preprocess_data(data):
                                         'Destination Lat','Destination Long']]
     # ------------------------------------------------------------------------
 
+    ##########################################################################
+    #                START OF FUNCTIONS CALLS
+    ##########################################################################
+    
+    # Drop redundant columns
+    drop_columns(feature_vector_df)
+
+    # Encode weekdays to weekday names category 
+    to_weekday_name(feature_vector_df)
+
+    # Platform type to category
+    to_platform_type(feature_vector_df)
+
+    # cast time to datetime then create hours, minute, seconds
+    to_seconds(feature_vector_df)
+
+    # Create the delta features
+    to_delta(feature_vector_df)
+
+    ##########################################################################
+    #                 END OF FUNCTIONS CALLS
+    ##########################################################################
+
+    
+
+
+
+
     return predict_vector
 
 def load_model(path_to_model:str):
